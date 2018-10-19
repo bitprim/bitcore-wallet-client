@@ -2,7 +2,7 @@
   "name": "bitprim-wallet-client",
   "description": "Client for Bitprim's fork of bitcore-wallet-service",
   "author": "Bitprim SRL",
-  "version": "6.7.5",
+  "version": "0.1.0",
   "license": "MIT",
   "keywords": [
     "bitcoin",
