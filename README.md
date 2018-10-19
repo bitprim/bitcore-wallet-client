@@ -1,32 +1,31 @@
-# bitcore-wallet-client
+# bitprim-wallet-client
 
-[![NPM Package](https://img.shields.io/npm/v/bitcore-wallet-client.svg?style=flat-square)](https://www.npmjs.org/package/bitcore-wallet-client)
-[![Build Status](https://img.shields.io/travis/bitpay/bitcore-wallet-client.svg?branch=master&style=flat-square)](https://travis-ci.org/bitpay/bitcore-wallet-client)
-[![Coverage Status](https://coveralls.io/repos/bitpay/bitcore-wallet-client/badge.svg)](https://coveralls.io/r/bitpay/bitcore-wallet-client)
+[![NPM Package](https://img.shields.io/npm/v/bitprim-wallet-client.svg?style=flat-square)](https://www.npmjs.org/package/bitprim-wallet-client)
 
-The *official* client library for [bitcore-wallet-service](https://github.com/bitpay/bitcore-wallet-service).
+[comment]: # [![Build Status](https://img.shields.io/travis/bitprim/bitprim-wallet-client.svg?branch=master&style=flat-square)](https://travis-ci.org/bitprim/bitprim-wallet-client)
+
+[comment]: # [![Coverage Status](https://coveralls.io/repos/bitprim/bitprim-wallet-client/badge.svg)](https://coveralls.io/r/bitprim/bitprim-wallet-client)
+
+The *official* client library for Bitprim-s fork of [bitcore-wallet-service](https://github.com/bitprim/bitcore-wallet-service).
 
 ## Description
 
-This package communicates with BWS [Bitcore wallet service](https://github.com/bitpay/bitcore-wallet-service) using the REST API. All REST endpoints are wrapped as simple async methods. All relevant responses from BWS are checked independently by the peers, thus the importance of using this library when talking to a third party BWS instance.
-
-See [Bitcore-wallet](https://github.com/bitpay/bitcore-wallet) for a simple CLI wallet implementation that relays on BWS and uses bitcore-wallet-client.
+This package communicates with Bitprim's fork of BWS [Bitcore wallet service](https://github.com/bitprim/bitcore-wallet-service) using the REST API. All REST endpoints are wrapped as simple async methods. All relevant responses from BWS are checked independently by the peers, thus the importance of using this library when talking to a third party BWS instance.
 
 ## Get Started
 
-You can start using bitcore-wallet-client in any of these two ways:
+You can start using bitprim-wallet-client via npm:
 
-* via [Bower](http://bower.io/): by running `bower install bitcore-wallet-client` from your console
-* or via [NPM](https://www.npmjs.com/package/bitcore-wallet-client): by running `npm install bitcore-wallet-client` from your console.
+* [NPM](https://www.npmjs.com/package/bitprim-wallet-client): by running `npm install bitprim-wallet-client` from your console.
 
 ## Example
 
-Start your own local [Bitcore wallet service](https://github.com/bitpay/bitcore-wallet-service) instance. In this example we assume you have `bitcore-wallet-service` running on your `localhost:3232`.
+Start your own local Bitprim fork of [Bitcore wallet service](https://github.com/bitprim/bitcore-wallet-service) instance. In this example we assume you have `bitcore-wallet-service` running on your `localhost:3232`.
 
-Install `bitcore-wallet-client` before start:
+Install `bitprim-wallet-client` before start:
 
 ```
-npm i bitcore-wallet-client
+npm i bitprim-wallet-client
 ```
 
 ### **Create and join a shared wallet**
@@ -36,11 +35,10 @@ Create two files `irene.js` and `tomas.js` with the content below:
 **irene.js**
 
 ``` javascript
-var Client = require('bitcore-wallet-client');
-
+var Client = require('bitprim-wallet-client');
 
 var fs = require('fs');
-var BWS_INSTANCE_URL = 'https://bws.bitpay.com/bws/api'
+var BWS_INSTANCE_URL = 'https://bws.keoken.io:3232/bws/api'
 
 var client = new Client({
   baseUrl: BWS_INSTANCE_URL,
@@ -62,11 +60,11 @@ client.createWallet("My Wallet", "Irene", 2, 2, {network: 'testnet'}, function(e
 
 ``` javascript
 
-var Client = require('bitcore-wallet-client');
+var Client = require('bitprim-wallet-client');
 
 
 var fs = require('fs');
-var BWS_INSTANCE_URL = 'https://bws.bitpay.com/bws/api'
+var BWS_INSTANCE_URL = 'https://bws.keoken.io:3232/bws/api'
 
 var secret = process.argv[2];
 if (!secret) {
@@ -141,11 +139,10 @@ Note that the scripts created two files named `irene.dat` and `tomas.dat`. With 
 ---
 
 ``` javascript
-var Client = require('bitcore-wallet-client');
-
+var Client = require('bitprim-wallet-client');
 
 var fs = require('fs');
-var BWS_INSTANCE_URL = 'https://bws.bitpay.com/bws/api'
+var BWS_INSTANCE_URL = 'https://bws.keoken.io:3232/bws/api'
 
 var client = new Client({
   baseUrl: BWS_INSTANCE_URL,
@@ -1125,7 +1122,7 @@ Check transaction proposal
 
 The MIT License
 
-Copyright (c) 2015 BitPay
+Copyright (c) 2015 Bitprim
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
