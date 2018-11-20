@@ -4,7 +4,7 @@ The *official* client library for [keoken-wallet-service] (https://github.com/bi
 
 ## Description
 
-This package communicates with BWS [Keoken wallet service](https://github.com/bitprim/keoken-wallet-service) using the REST API. All REST endpoints are wrapped as simple async methods. All relevant responses from BWS are checked independently by the peers, thus the importance of using this library when talking to a third party BWS instance.
+This package communicates with KWS [Keoken wallet service](https://github.com/bitprim/keoken-wallet-service) using the REST API. All REST endpoints are wrapped as simple async methods. All relevant responses from KWS are checked independently by the peers, thus the importance of using this library when talking to a third party KWS instance.
 
 ## Get Started
 
@@ -971,7 +971,7 @@ Check transaction proposal
 
 The MIT License
 
-Copyright (c) 2015 BitPay
+Copyright (c) 2015 Bitprim
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
