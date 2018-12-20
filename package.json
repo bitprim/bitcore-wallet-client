@@ -2,7 +2,7 @@
   "name": "keoken-wallet-client",
   "description": "Client for keoken-wallet-service",
   "author": "Bitprim Inc",
-  "version": "6.8.0",
+  "version": "7.0.0",
   "license": "MIT",
   "keywords": [
     "bitcoin",
