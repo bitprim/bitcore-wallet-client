@@ -2,7 +2,9 @@
 
 The *official* client library for [keoken-wallet-service] (https://github.com/bitprim/keoken-wallet-service). 
 
-## Description
+[comment]: # [![Coverage Status](https://coveralls.io/repos/bitprim/bitprim-wallet-client/badge.svg)](https://coveralls.io/r/bitprim/bitprim-wallet-client)
+
+The *official* client library for Bitprim-s fork of [bitcore-wallet-service](https://github.com/bitprim/bitcore-wallet-service).
 
 This package communicates with KWS [Keoken wallet service](https://github.com/bitprim/keoken-wallet-service) using the REST API. All REST endpoints are wrapped as simple async methods. All relevant responses from KWS are checked independently by the peers, thus the importance of using this library when talking to a third party KWS instance.
 
