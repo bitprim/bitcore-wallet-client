@@ -271,7 +271,27 @@ blockchainExplorerMock.reset = function() {
   blockchainExplorerMock.feeLevels = [];
 };
 
+var keokenExplorerMock = { assets: {} };
 
+keokenExplorerMock.getAssetsByAddress = function(addr, cb) {
+  return cb(null, keokenExplorerMock.assets[addr]);
+};
+
+keokenExplorerMock.setAsset = function(addr, assetId, assetName, amount) {
+  if(!keokenExplorerMock.assets[addr]) {
+    keokenExplorerMock.assets[addr] = [];
+  }
+  keokenExplorerMock.assets[addr].push({
+    amount: amount,
+    asset_creator: addr,
+    asset_id: assetId,
+    asset_name: assetName
+  });
+};
+
+keokenExplorerMock.reset = function() {
+  keokenExplorerMock.assets = {};
+}
 
 describe('client API', function() {
   var clients, app, sandbox;
@@ -286,6 +306,7 @@ describe('client API', function() {
         storage: storage,
         blockchainExplorer: blockchainExplorerMock,
         disableLogs: true,
+        keokenExplorer: keokenExplorerMock
       },
       function() {
         app = expressApp.app;
@@ -424,7 +445,7 @@ describe('client API', function() {
       expressApp.start({
         storage: s,
         blockchainExplorer: blockchainExplorerMock,
-        disableLogs: true,
+        disableLogs: true
       }, function() {
         var s2 = sinon.stub();
         s2.load = sinon.stub().yields(null);
@@ -1568,13 +1589,16 @@ describe('client API', function() {
   });
 
   describe('#getMainAddresses', function() {
+    var myAddress;
     beforeEach(function(done) {
       helpers.createAndJoinWallet(clients, 1, 1, function(w) {
         clients[0].createAddress(function(err, x0) {
           should.not.exist(err);
+          myAddress = x0;
           clients[0].createAddress(function(err, x0) {
             should.not.exist(err);
             blockchainExplorerMock.setUtxo(x0, 1, 1);
+            keokenExplorerMock.reset();
             done();
           });
         });
@@ -1585,7 +1609,7 @@ describe('client API', function() {
         doNotVerify: true
       }, function(err, addr) {
         should.not.exist(err);
-        addr.length.should.equal(2);
+        addr.length.should.equal(1); // Keoken enforces single address
         done();
       });
     });
@@ -1594,12 +1618,17 @@ describe('client API', function() {
         amount: 0.1e8,
         toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
         message: 'hello 1-1',
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
         should.not.exist(err);
         clients[0].getMainAddresses({}, function(err, addr) {
           should.not.exist(err);
-          addr.length.should.equal(2);
+          addr.length.should.equal(1); // Keoken enforces single-address
           done();
         });
       });
@@ -1637,13 +1666,14 @@ describe('client API', function() {
           next(null, x.address);
         });
       }, function(err, addresses) {
+        should.not.exist(err);
         var opts = {
           addresses: _.take(addresses, 2),
         };
         clients[0].getUtxos(opts, function(err, utxos) {
           should.not.exist(err);
-          utxos.length.should.equal(2);
-          _.sumBy(utxos, 'satoshis').should.equal(2 * 1e8);
+          utxos.length.should.equal(3); // The 3 utxos go to the same, unique address (Keoken enforces single address)
+          _.sumBy(utxos, 'satoshis').should.equal(3 * 1e8); // Their sum is the total (3 coins)
           done();
         });
       });
@@ -2023,8 +2053,8 @@ describe('client API', function() {
     it('should receive notifications', function(done) {
       clients[0].getNotifications({}, function(err, notifications) {
         should.not.exist(err);
-        notifications.length.should.equal(3);
-        _.map(notifications, 'type').should.deep.equal(['NewCopayer', 'WalletComplete', 'NewAddress']);
+        notifications.length.should.equal(2); // 'NewAddress' notification is not used due to Keoken enforcing single address
+        _.map(notifications, 'type').should.deep.equal(['NewCopayer', 'WalletComplete']);
         clients[0].getNotifications({
           lastNotificationId: _.last(notifications).id
         }, function(err, notifications) {
@@ -2045,14 +2075,15 @@ describe('client API', function() {
     it('should not receive notifications for self generated events unless specified', function(done) {
       clients[0].getNotifications({}, function(err, notifications) {
         should.not.exist(err);
-        notifications.length.should.equal(3);
-        _.map(notifications, 'type').should.deep.equal(['NewCopayer', 'WalletComplete', 'NewAddress']);
+        notifications.length.should.equal(2); // 'NewAddress' notification is not sent because Keoken enforces single address
+        _.map(notifications, 'type').should.deep.equal(['NewCopayer', 'WalletComplete']);
         clients[0].getNotifications({
           includeOwn: true,
         }, function(err, notifications) {
           should.not.exist(err);
-          notifications.length.should.equal(5);
-          _.map(notifications, 'type').should.deep.equal(['NewCopayer', 'NewCopayer', 'WalletComplete', 'NewAddress', 'NewAddress']);
+          notifications.length.should.equal(4);
+          // 'NewAddress; event is only sent once
+          _.map(notifications, 'type').should.deep.equal(['NewCopayer', 'NewCopayer', 'WalletComplete', 'NewAddress']);
           done();
         });
       });
@@ -2069,6 +2100,7 @@ describe('client API', function() {
           blockchainExplorerMock.setUtxo(address, 2, 2);
           blockchainExplorerMock.setUtxo(address, 2, 2);
           blockchainExplorerMock.setUtxo(address, 1, 2, 0);
+          keokenExplorerMock.reset();
           done();
         });
       });
@@ -2088,6 +2120,10 @@ describe('client API', function() {
           amount: 2e8,
           toAddress: toAddress,
         }],
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        },
         message: 'hello',
         customData: {
           someObj: {
@@ -2096,6 +2132,7 @@ describe('client API', function() {
           someStr: "str"
         }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       clients[0].createTxProposal(opts, function(err, txp) {
         should.not.exist(err);
         should.exist(txp);
@@ -2213,7 +2250,6 @@ describe('client API', function() {
           toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
         }],
         feePerKb: 123e2,
-        changeAddress: myAddress,
         message: 'hello',
       };
 
@@ -2245,10 +2281,7 @@ describe('client API', function() {
         },
         function(txp) {
           txp.outputs[0].message = 'dummy';
-        },
-        function(txp) {
-          txp.changeAddress.address = 'mjfjcbuYwBUdEyq2m7AezjCAR4etUBqyiE';
-        },
+        }
       ];
 
       var tmp = clients[0]._getCreateTxProposalArgs;
