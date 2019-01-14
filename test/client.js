@@ -2321,9 +2321,14 @@ describe('client API', function() {
           toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
         }],
         feePerKb: 100e2,
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
 
       var txp1, txp2;
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       async.series([
 
         function(next) {
@@ -2374,7 +2379,12 @@ describe('client API', function() {
         amount: 4.5e8,
         toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
         message: 'hello',
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
         should.not.exist(err);
         clients[0].getTx(x.id, function(err, x2) {
@@ -2391,10 +2401,15 @@ describe('client API', function() {
           should.exist(x0.address);
           blockchainExplorerMock.setUtxo(x0, 1, 2);
           blockchainExplorerMock.setUtxo(x0, 1, 2);
+          keokenExplorerMock.setAsset(x0.address, 1, 'keos', 1);
           var opts = {
             amount: 3e8,
             toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
             message: 'hello 1-1',
+            keoken: {
+              keoken_id: 1,
+              keoken_amount: 1
+            }
           };
           helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
             should.exist(err);
@@ -2410,7 +2425,12 @@ describe('client API', function() {
         toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
         message: 'hello 1-1',
         feePerKb: 800e2,
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 1);
       helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
         should.exist(err);
         err.should.be.an.instanceOf(Errors.INSUFFICIENT_FUNDS_FOR_FEE);
@@ -2429,7 +2449,12 @@ describe('client API', function() {
       var opts = {
         amount: 2.2e8,
         toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
         should.not.exist(err);
 
@@ -2455,7 +2480,12 @@ describe('client API', function() {
         amount: 2.2e8,
         toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
         message: 'hello 1-1',
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
         should.not.exist(err);
 
@@ -2478,7 +2508,12 @@ describe('client API', function() {
         amount: 1e8,
         toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
         message: 'some message',
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
         should.not.exist(err);
         clients[1].rejectTxProposal(x, 'rejection comment', function(err, tx1) {
@@ -2499,7 +2534,12 @@ describe('client API', function() {
         amount: 1e8,
         toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
         message: 'some message',
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
         should.not.exist(err);
         clients[1].rejectTxProposal(x, 'rejection comment', function(err, tx1) {
@@ -2526,8 +2566,13 @@ describe('client API', function() {
         }],
         message: 'some message',
         feePerKb: 100e2,
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
       var spy = sinon.spy(clients[0], '_doPostRequest');
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       clients[0].createTxProposal(opts, function(err, x) {
         should.not.exist(err);
         spy.calledOnce.should.be.true;
@@ -2539,7 +2584,12 @@ describe('client API', function() {
       var opts = {
         amount: 1e8,
         toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
         should.not.exist(err);
         var spy = sinon.spy(clients[1], '_doPostRequest');
@@ -2562,7 +2612,12 @@ describe('client API', function() {
               amount: 1000e2,
               toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
               message: 'hello',
+              keoken: {
+                keoken_id: 1,
+                keoken_amount: 1
+              }
             };
+            keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
             helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
               should.not.exist(err);
 
@@ -2584,7 +2639,12 @@ describe('client API', function() {
           amount: 1000e2,
           toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
           message: 'hello',
+          keoken: {
+            keoken_id: 1,
+            keoken_amount: 1
+          }
         };
+        keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
         helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
           should.not.exist(err);
 
@@ -2604,7 +2664,12 @@ describe('client API', function() {
           amount: 1000e2,
           toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
           message: 'hello',
+          keoken: {
+            keoken_id: 1,
+            keoken_amount: 1
+          }
         };
+        keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
         helpers.createAndPublishTxProposal(clients[0], opts, function(err, x) {
           should.not.exist(err);
 
@@ -2624,16 +2689,19 @@ describe('client API', function() {
 
   describe('Transaction Proposal signing', function() {
     this.timeout(5000);
+    var myAddress;
     function setup(m, n, coin, network, cb) {
       helpers.createAndJoinWallet(clients, m, n, {
         coin: coin,
         network: network,
       }, function(w) {
         clients[0].createAddress(function(err, address) {
+          myAddress = address;
           should.not.exist(err);
           blockchainExplorerMock.setUtxo(address, 2, 2);
           blockchainExplorerMock.setUtxo(address, 2, 2);
           blockchainExplorerMock.setUtxo(address, 1, 2, 0);
+          keokenExplorerMock.reset();
           cb();
         });
       });
@@ -2656,7 +2724,12 @@ describe('client API', function() {
           }],
           feePerKb: 100e2,
           message: 'just some message',
+          keoken: {
+            keoken_id: 1,
+            keoken_amount: 1
+          }
         };
+        keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
         clients[0].createTxProposal(opts, function(err, txp) {
           should.not.exist(err);
           should.exist(txp);
@@ -2686,7 +2759,12 @@ describe('client API', function() {
           }],
           excludeUnconfirmedUtxos: true,
           feePerKb: 1,
+          keoken: {
+            keoken_id: 1,
+            keoken_amount: 1
+          }
         };
+        keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
         clients[0].createTxProposal(opts, function(err, txp) {
           should.not.exist(err);
           should.exist(txp);
@@ -2723,7 +2801,12 @@ describe('client API', function() {
             }],
             inputs: info.inputs,
             fee: info.fee,
+            keoken: {
+              keoken_id: 1,
+              keoken_amount: 1
+            }
           };
+          keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
           clients[0].createTxProposal(opts, function(err, txp) {
             should.not.exist(err);
             should.exist(txp);
@@ -2772,7 +2855,12 @@ describe('client API', function() {
           feePerKb: 100e2,
           message: 'just some message',
           coin: 'bch',
+          keoken: {
+            keoken_id: 1,
+            keoken_amount: 1
+          }
         };
+        keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
         clients[0].createTxProposal(opts, function(err, txp) {
           should.not.exist(err);
           should.exist(txp);
@@ -2813,13 +2901,19 @@ describe('client API', function() {
             clients[0].payProHttp = clients[1].payProHttp = http;
 
             clients[0].fetchPayPro(opts, function(err, paypro) {
+              should.not.exist(err);
               http.getCall(0).args[0].coin.should.equal('btc');
-
+              keokenExplorerMock.reset();
+              keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
               helpers.createAndPublishTxProposal(clients[0], {
                 toAddress: paypro.toAddress,
                 amount: paypro.amount,
                 message: paypro.memo,
                 payProUrl: opts.payProUrl,
+                keoken: {
+                  keoken_id: 1,
+                  keoken_amount: 1
+                }
               }, function(err, x) {
                 should.not.exist(err);
                 done();
@@ -2992,12 +3086,18 @@ describe('client API', function() {
             clients[0].fetchPayPro(opts, function(err, paypro) {
               http.getCall(0).args[0].coin.should.equal('btc');
               paypro.requiredFeeRate.should.equal(1);
+              keokenExplorerMock.reset();
+              keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
               helpers.createAndPublishTxProposal(clients[0], {
                 toAddress: paypro.toAddress,
                 amount: paypro.amount,
                 message: paypro.memo,
                 payProUrl: opts.payProUrl,
                 feePerKb: paypro.requiredFeeRate*1024,
+                keoken: {
+                  keoken_id: 1,
+                  keoken_amount: 1
+                }
               }, function(err, x) {
                 should.not.exist(err);
                 done();
@@ -3047,6 +3147,7 @@ describe('client API', function() {
       });
 
 
+      // TODO Don't skip
       it.skip('Should fail if requiredFeeRate is not meet', function(done) {
         clients[0].getTxProposals({}, function(err, txps) {
           should.not.exist(err);
@@ -3082,11 +3183,17 @@ describe('client API', function() {
 
             clients[0].fetchPayPro(opts, function(err, paypro) {
               http.getCall(0).args[0].coin.should.equal('btc');
+              keokenExplorerMock.reset();
+              keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
               helpers.createAndPublishTxProposal(clients[0], {
                 toAddress: paypro.toAddress,
                 amount: paypro.amount,
                 message: paypro.memo,
                 payProUrl: opts.payProUrl,
+                keoken: {
+                  keoken_id: 1,
+                  keoken_amount: 1
+                }
               }, function(err, x) {
                 should.not.exist(err);
                 done();
@@ -3176,11 +3283,17 @@ describe('client API', function() {
             clients[0].fetchPayPro(opts, function(err, paypro) {
               paypro.toAddress.should.equal('CN4yN5kfov99EjS1amKYQnSfaehpyRGzv2');
               http.getCall(0).args[0].coin.should.equal('bch');
+              keokenExplorerMock.reset();
+              keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
               helpers.createAndPublishTxProposal(clients[0], {
                 toAddress: paypro.toAddress,
                 amount: paypro.amount,
                 message: paypro.memo,
                 payProUrl: opts.payProUrl,
+                keoken: {
+                  keoken_id: 1,
+                  keoken_amount: 1
+                }
               }, function(err, x) {
                 should.not.exist(err);
                 done();
@@ -3268,14 +3381,21 @@ describe('client API', function() {
             clients[0].payProHttp = clients[1].payProHttp = http;
 
             clients[0].fetchPayPro(opts, function(err, paypro) {
+              should.not.exist(err);
+              keokenExplorerMock.reset();
+              keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
               clients[0].createTxProposal({
                 outputs: [{
                   toAddress: paypro.toAddress,
-                  amount: paypro.amount,
+                  amount: paypro.amount
                 }],
                 message: paypro.memo,
                 payProUrl: opts.payProUrl,
                 feePerKb: 100e2,
+                keoken: {
+                  keoken_id: 1,
+                  keoken_amount: 1
+                }
               }, function(err, txp) {
                 should.not.exist(err);
                 clients[0].publishTxProposal({
@@ -3321,7 +3441,13 @@ describe('client API', function() {
             }],
             feePerKb: 100e2,
             txProposalId: id,
+            keoken: {
+              keoken_id: 1,
+              keoken_amount: 1
+            }
           };
+          keokenExplorerMock.reset();
+          keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
           clients[0].createTxProposal(opts, function(err, txp) {
             should.not.exist(err);
             should.exist(txp);
@@ -3356,6 +3482,10 @@ describe('client API', function() {
         message: 'world',
       }],
       feePerKb: 100e2,
+      keoken: {
+        keoken_id: 1,
+        keoken_amount: 1
+      }
     };
 
     beforeEach(function(done) {
@@ -3366,6 +3496,8 @@ describe('client API', function() {
           should.not.exist(err);
           should.exist(x0.address);
           blockchainExplorerMock.setUtxo(x0, 1, 1);
+          keokenExplorerMock.reset();
+          keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
           clients[0].payProHttp = clients[1].payProHttp = http;
           done();
         });
