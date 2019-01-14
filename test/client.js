@@ -3570,13 +3570,19 @@ describe('client API', function() {
             }],
             message: 'hello',
             feePerKb: 100e2,
+            keoken: {
+              keoken_id: 1,
+              keoken_amount: 1
+            }
           };
+          keokenExplorerMock.reset();
+          keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
           helpers.createAndPublishTxProposal(clients[0], opts, function(err, txp) {
             should.not.exist(err);
             txp.requiredRejections.should.equal(1);
             txp.requiredSignatures.should.equal(1);
             txp.status.should.equal('pending');
-            txp.changeAddress.path.should.equal('m/1/0');
+            txp.changeAddress.path.should.equal('m/0/0'); // Single address
             txp.outputs[0].message.should.equal('output 0');
             txp.message.should.equal('hello');
             clients[0].signTxProposal(txp, function(err, txp) {
@@ -3608,13 +3614,19 @@ describe('client API', function() {
             amount: 10000000,
             toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
             message: 'hello',
+            keoken: {
+              keoken_id: 1,
+              keoken_amount: 1
+            }
           };
+          keokenExplorerMock.reset();
+          keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
           helpers.createAndPublishTxProposal(clients[0], opts, function(err, txp) {
             should.not.exist(err);
             txp.requiredRejections.should.equal(1);
             txp.requiredSignatures.should.equal(1);
             txp.status.should.equal('pending');
-            txp.changeAddress.path.should.equal('m/1/0');
+            txp.changeAddress.path.should.equal('m/0/0'); // Single address
 
             txp.signatures = [];
             clients[0].signTxProposal(txp, function(err, txp) {
@@ -3637,7 +3649,13 @@ describe('client API', function() {
             amount: 10000,
             toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
             message: 'hello',
+            keoken: {
+              keoken_id: 1,
+              keoken_amount: 1
+            }
           };
+          keokenExplorerMock.reset();
+          keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
           helpers.createAndPublishTxProposal(clients[0], opts, function(err, txp) {
             should.not.exist(err);
             clients[0].getStatus({}, function(err, st) {
@@ -3707,7 +3725,13 @@ describe('client API', function() {
             amount: 10000,
             toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
             message: 'hello 1-1',
+            keoken: {
+              keoken_id: 1,
+              keoken_amount: 1
+            }
           };
+          keokenExplorerMock.reset();
+          keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
           helpers.createAndPublishTxProposal(clients[0], opts, function(err, txp) {
             should.not.exist(err);
             txp.status.should.equal('pending');
@@ -3744,7 +3768,13 @@ describe('client API', function() {
             amount: 10000,
             toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
             message: 'hello 1-1',
+            keoken: {
+              keoken_id: 1,
+              keoken_amount: 1
+            }
           };
+          keokenExplorerMock.reset();
+          keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
           helpers.createAndPublishTxProposal(clients[0], opts, function(err, txp) {
             should.not.exist(err);
             txp.status.should.equal('pending');
@@ -3779,7 +3809,13 @@ describe('client API', function() {
             amount: 10000,
             toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
             message: 'hello 1-1',
+            keoken: {
+              keoken_id: 1,
+              keoken_amount: 1
+            }
           };
+          keokenExplorerMock.reset();
+          keokenExplorerMock.setAsset(x0.address, 1, 'keos', 50);
           helpers.createAndPublishTxProposal(clients[0], opts, function(err, txp) {
             should.not.exist(err);
             txp.status.should.equal('pending');
