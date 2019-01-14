@@ -2197,6 +2197,10 @@ describe('client API', function() {
           amount: 2e8,
           toAddress: toAddress,
         }],
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        },
         message: 'hello',
         feeLevel: 'economy',
         customData: {
@@ -2206,6 +2210,7 @@ describe('client API', function() {
           someStr: "str"
         }
       };
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       clients[0].createTxProposal(opts, function(err, txp) {
         should.not.exist(err);
         should.exist(txp);
@@ -2250,6 +2255,10 @@ describe('client API', function() {
           toAddress: 'n2TBMPzPECGUfcT2EByiTJ12TPZkhN2mN5',
         }],
         feePerKb: 123e2,
+        keoken: {
+          keoken_id: 1,
+          keoken_amount: 1
+        },
         message: 'hello',
       };
 
@@ -2286,14 +2295,15 @@ describe('client API', function() {
 
       var tmp = clients[0]._getCreateTxProposalArgs;
       var args = clients[0]._getCreateTxProposalArgs(opts);
-
+      keokenExplorerMock.setAsset(myAddress.address, 1, 'keos', 50);
       clients[0]._getCreateTxProposalArgs = function(opts) {
         return args;
       };
       async.each(tamperings, function(tamperFn, next) {
-        helpers.tamperResponse(clients[0], 'post', '/v2/txproposals/', args, tamperFn, function() {
+        helpers.tamperResponse(clients, 'post', '/v2/txproposals/', args, tamperFn, function() {
           clients[0].createTxProposal(opts, function(err, txp) {
-            should.exist(err, tamperFn);
+            should.exist(err);
+            should.exist(tamperFn);
             err.should.be.an.instanceOf(Errors.SERVER_COMPROMISED);
             next();
           });
