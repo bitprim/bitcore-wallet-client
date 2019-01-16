@@ -1,17 +1,17 @@
 {
-  "name": "bitcore-wallet-client",
+  "name": "keoken-wallet-client",
   "main": "index.js",
   "version": "2.1.1",
-  "homepage": "https://github.com/bitpay/bitcore-wallet-client",
+  "homepage": "https://github.com/bitprim/keoken-wallet-client",
   "authors": ["BitPay Inc"],
-  "description": "Client for bitcore-wallet-service",
+  "description": "Client for keoken-wallet-service",
   "keywords": [
     "bitcoin",
-    "copay",
+    "bitprim",
     "multisig",
     "wallet",
     "client",
-    "bitcore"
+    "keoken"
   ],
   "ignore": [
     "**/.*",
