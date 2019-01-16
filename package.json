@@ -39,7 +39,7 @@
   "devDependencies": {
     "browserify": "^13.1.0",
     "chai": "^1.9.1",
-    "coveralls": "^2.11.2",
+    "coveralls": "^3.0.2",
     "grunt-jsdox": "matiu/grunt-jsdox#update/jsdoc-4.10",
     "istanbul": "*",
     "keoken-wallet-service": "^2.4.3",
